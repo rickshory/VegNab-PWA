@@ -217,12 +217,29 @@ var idbApp = (function() {
   }
 
   function getByDistrib(key) {
-    // use the get method to get an object by name
-    return dbPromise.then((db) => {
+    // get all the species for a subnation (state or province)
+    var key = document.getElementById('distrib').value;
+    if (key === '') {return;}
+    var s = '';
+    dbPromise.then((db) => {
       var tx = db.transaction('NRCS-species', 'readonly');
       var store = tx.objectStore('NRCS-species');
       var index = store.index('Distribution');
-      return index.get(key);
+      s += '<h2>' + key + '</h2><p>';
+      return index.openCursor(key);
+    }).then(function showAll(cursor) {
+      if (!cursor) {return;}
+      console.log('Cursor at: ', cursor.value.Code);
+      s += cursor.value.Code + ': ' +
+          cursor.value.Genus + ' ' +
+          cursor.value.Species;
+      if (cursor.value.SubsppVar !== '') s += ', ' + cursor.value.SubsppVar;
+      if (cursor.value.Vernacular !== '') s += ', ' + cursor.value.Vernacular;
+      s += '</p>';
+      return cursor.continue().then(showAll);
+    }).then(() => {
+      if (s === '') {s = '<p>No results.</p>';}
+      document.getElementById('list').innerHTML = s;
     });
   }
 
@@ -248,7 +265,7 @@ var idbApp = (function() {
   }
 
   function getByCode() {
-    // TODO 4.4a - use a cursor to get objects by price
+    //  use a cursor to get objects by species code
     var lower = document.getElementById('codeMin').value;
     var upper = document.getElementById('codeMax').value;
     if (lower === '' && upper === '') {return;}
