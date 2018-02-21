@@ -1,0 +1,90 @@
+<!--
+Copyright 2018 rickshory.com
+Files modified from work originally Copyright 2016 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="author" content="//www.vegnab.com">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,
+       minimum-scale=1.0,
+       initial-scale=1.0,
+       user-scalable=yes">
+  <script type="text/javascript" src="js/idb.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
+
+  <title>Plant Species</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/main.css" />
+
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Tags for other browsers -->
+  <!-- Chrome for Android theme color -->
+  <meta name="theme-color" content="#2E3AA1">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="VegNab">
+  <link rel="icon" sizes="192x192" href="images/touch/icon-192x192.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capble" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Blog">
+  <link rel="apple-touch-icon" href="images/touch/icon-192x192.png">
+
+  <!-- Tile for Win8 -->
+  <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-TileImage" content="images/touch/icon-192x192.png">
+
+</head>
+<body>
+  <h1>Plant Species</h1>
+  <button id="addSpecies" onclick="idbApp.addSpecies()">Add Species</button></br></br>
+  <h2>Search Species</h2>
+  By Distribution: <input type="text" id="distrib" placeholder="Subnation">
+  <button id="byDistrib" onclick="idbApp.displayByDistrib()">Search</button></br></br>
+  By Code: <input type="text" id="codeMin" placeholder="From">
+  <input type="text" id="codeMax" placeholder="To">
+  <button id="byCode" onclick="idbApp.getByCode()">Search</button></br></br>
+  By Full Text: <input type="text" id="desc" placeholder="Description">
+  <button id="byDesc" onclick="idbApp.getByDesc()">Search</button></br></br>
+  <h2>Species List</h2>
+  <button id="addToList" onclick="idbApp.addToList()">Add to List</button></br></br>
+  <button id="showList" onclick="idbApp.showList()">Show List</button></br></br>
+  <div id="list"></div>
+
+  <!-- Add and register a service worker  -->
+  <script>
+    (() => {
+      if (!('serviceWorker' in navigator)) {
+        console.log('Service worker not supported');
+        return;
+      }
+      navigator.serviceWorker.register('service-worker.js')
+      .then((registration) => {
+        console.log('SW successfully registered');
+      })
+      .catch((error) => {
+        console.log('registration failed', error);
+      });
+    })();
+  </script>
+</body>
+</html>
