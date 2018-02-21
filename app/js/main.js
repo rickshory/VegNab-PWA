@@ -243,27 +243,6 @@ var idbApp = (function() {
     });
   }
 
-  function displayByDistrib() {
-    var key = document.getElementById('distrib').value;
-    if (key === '') {return;}
-    var s = '';
-    getByDistrib(key).then((object) => {
-      if (!object) {return;}
-
-      s += '<h2>' + key + '</h2><p>';
-      s += object.Code + ': ' +
-          object.Genus + ' ' +
-          object.Species;
-      if (object.SubsppVar !== '') s += ', ' + object.SubsppVar;
-      if (object.Vernacular !== '') s += ', ' + object.Vernacular;
-      s += '</p>';
-
-    }).then(() => {
-      if (s === '') {s = '<p>No results.</p>';}
-      document.getElementById('list').innerHTML = s;
-    });
-  }
-
   function getByCode() {
     //  use a cursor to get objects by species code
     var lower = document.getElementById('codeMin').value;
