@@ -33,8 +33,9 @@ var idbApp = (function() {
         console.log('Creating the species object store');
         upgradeDB.createObjectStore('NRCS-species', {keyPath: 'Code'});
         var store = upgradeDB.transaction.objectStore('NRCS-species');
+        console.log('Creating a Code index, to be able to search on Code');
+        store.createIndex('Code', 'Code', {unique: true});
         console.log('Creating a Genus index');
-//        store.createIndex('genus', 'genus', {unique: true});
         store.createIndex('Genus', 'Genus');
         console.log('Creating a Species index');
         store.createIndex('Species', 'Species');
@@ -229,16 +230,18 @@ var idbApp = (function() {
     var key = document.getElementById('distrib').value;
     if (key === '') {return;}
     var s = '';
-    getByDistrib(key).then(function(object) {
+    getByDistrib(key).then((object) => {
       if (!object) {return;}
 
-      s += '<h2>' + object.Distribution + '</h2><p>';
-      for (var field in object) {
-        s += field + ' = ' + object[field] + '<br/>';
-      }
+      s += '<h2>' + key + '</h2><p>';
+      s += object.Code + ': ' +
+          object.Genus + ' ' +
+          object.Species;
+      if (object.SubsppVar !== '') s += ', ' + object.SubsppVar;
+      if (object.Vernacular !== '') s += ', ' + object.Vernacular;
       s += '</p>';
 
-    }).then(function() {
+    }).then(() => {
       if (s === '') {s = '<p>No results.</p>';}
       document.getElementById('list').innerHTML = s;
     });
