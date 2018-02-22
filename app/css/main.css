@@ -159,3 +159,27 @@ header:hover svg#logo {
   -webkit-filter: drop-shadow(3px 3px 3px #ddd);
   filter: drop-shadow(3px 3px 3px #ddd);
 }
+
+.spp-select-list {
+    width: 95%;
+    height: 150px;
+    overflow-y: auto;
+}
+
+.spp-select-list li {
+    background-color: #eee;
+    color: black;
+    display: block;
+    padding: 2px;
+    text-decoration: none;
+    text-align: left;
+}
+
+.spp-select-list li:hover {
+    background-color: #ccc;
+}
+
+.spp-select-list li.active {
+    background-color: #4CAF50;
+    color: white;
+}
