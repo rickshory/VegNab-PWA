@@ -46,7 +46,7 @@ h1 a {
 }
 
 article {
-  align-items: center;
+  align-items: left;
   display: flex;
   flex-direction: column;
   max-width: 50em;
@@ -54,7 +54,7 @@ article {
 }
 
 body {
-  align-items: center;
+  align-items: left;
   display: flex;
   flex-direction: column;
   font-family: 'Roboto', sans-serif;
@@ -78,7 +78,7 @@ figure {
 }
 
 footer {
-  text-align: center;
+  text-align: left;
 }
 
 h1 {
@@ -119,7 +119,7 @@ p {
   font-weight: 300;
   line-height: 1.6em;
   margin: 0 auto 1em auto;
-  text-align: justify;
+  text-align: left;
 }
 
 p.borderBelow {

@@ -233,7 +233,7 @@ var idbApp = (function() {
       s += cursor.value.Code + ': ' +
           cursor.value.Genus + ' ' +
           cursor.value.Species;
-      if (cursor.value.SubsppVar !== '') s += ', ' + cursor.value.SubsppVar;
+      if (cursor.value.SubsppVar !== '') s += ' ' + cursor.value.SubsppVar;
       if (cursor.value.Vernacular !== '') s += ', ' + cursor.value.Vernacular;
       s += '</p>';
       return cursor.continue().then(showAll);
@@ -318,7 +318,6 @@ var idbApp = (function() {
     parseNRCSDistributionIntoArray: (parseNRCSDistributionIntoArray),
     addSpeciesToObjStore: (addSpeciesToObjStore),
     getByDistrib: (getByDistrib),
-    displayByDistrib: (displayByDistrib),
     getByCode: (getByCode),
     getByDesc: (getByDesc),
     addToSppList: (addToSppList),
