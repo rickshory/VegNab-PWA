@@ -225,21 +225,23 @@ var idbApp = (function() {
       var tx = db.transaction('NRCS-species', 'readonly');
       var store = tx.objectStore('NRCS-species');
       var index = store.index('Distribution');
-      s += '<h2>' + key + '</h2><p>';
+//      s += '<h2>' + key + '</h2><p>';
+      s += '<ul>';
       return index.openCursor(key);
     }).then(function showAll(cursor) {
       if (!cursor) {return;}
       console.log('Cursor at: ', cursor.value.Code);
-      s += cursor.value.Code + ': ' +
+      s += '<li>' + cursor.value.Code + ': ' +
           cursor.value.Genus + ' ' +
           cursor.value.Species;
       if (cursor.value.SubsppVar !== '') s += ' ' + cursor.value.SubsppVar;
       if (cursor.value.Vernacular !== '') s += ', ' + cursor.value.Vernacular;
-      s += '</p>';
+//      s += '</p>';
+      s += '</li>';
       return cursor.continue().then(showAll);
     }).then(() => {
-      if (s === '') {s = '<p>No results.</p>';}
-      document.getElementById('list').innerHTML = s;
+      if (s === '') {s = '<p>No results.</p>';} else {s += '</ul>'}
+      document.getElementById('selectable-spp-items').innerHTML = s;
     });
   }
 

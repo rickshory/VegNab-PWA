@@ -46,7 +46,7 @@ h1 a {
 }
 
 article {
-  align-items: left;
+  align-items: center;
   display: flex;
   flex-direction: column;
   max-width: 50em;
@@ -54,7 +54,7 @@ article {
 }
 
 body {
-  align-items: left;
+  align-items: center;
   display: flex;
   flex-direction: column;
   font-family: 'Roboto', sans-serif;
