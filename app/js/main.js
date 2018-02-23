@@ -237,13 +237,16 @@ var idbApp = (function() {
     }).then(function showAll(cursor) {
       if (!cursor) {return;}
       console.log('Cursor at: ', cursor.value.Code);
-      s += '<li>' + cursor.value.Code + ': ' +
-          cursor.value.Genus + ' ' +
-          cursor.value.Species;
-      if (cursor.value.SubsppVar !== '') s += ' ' + cursor.value.SubsppVar;
-      if (cursor.value.Vernacular !== '') s += ', ' + cursor.value.Vernacular;
-//      s += '</p>';
-      s += '</li>';
+      // for some reason there is one "blank" row in the Code index, of empty arrays
+      // following 'if' does not manage to ignore that blank row
+      if (cursor.value.code !== '') {
+        s += '<li>' + cursor.value.Code + ': ' +
+            cursor.value.Genus + ' ' +
+            cursor.value.Species;
+        if (cursor.value.SubsppVar !== '') s += ' ' + cursor.value.SubsppVar;
+        if (cursor.value.Vernacular !== '') s += ', ' + cursor.value.Vernacular;
+        s += '</li>';
+      }
       return cursor.continue().then(showAll);
     }).then(() => {
       if (s === '') {s = '<p>No results.</p>';} else {s += '</ul>'}
