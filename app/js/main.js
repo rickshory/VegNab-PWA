@@ -223,12 +223,14 @@ var idbApp = (function() {
     dbPromise.then((db) => {
       var tx = db.transaction('NRCS-species', 'readonly');
       var store = tx.objectStore('NRCS-species');
-      var index = store.index('Distribution');
-      s += '<ul>';
+      var index;
       var request;
+      s += '<ul>';
       if (key === "") {
+        index = store.index('Code');
         request = index.openCursor();
       } else {
+        index = store.index('Distribution');
         request = index.openCursor(key);
       }
       return request;
