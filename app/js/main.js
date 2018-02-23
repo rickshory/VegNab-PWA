@@ -226,9 +226,12 @@ var idbApp = (function() {
       var index;
       var request;
       s += '<ul>';
-      if (key === "") {
+      if (key === "") { // get all spp, by Code index, which is unique
         index = store.index('Code');
-        request = index.openCursor();
+        var lower = 'A';
+        var upper = 'Z' + '\uffff';
+        var range = IDBKeyRange.bound(lower, upper);
+        request = index.openCursor(range);
       } else {
         index = store.index('Distribution');
         request = index.openCursor(key);
@@ -237,16 +240,12 @@ var idbApp = (function() {
     }).then(function showAll(cursor) {
       if (!cursor) {return;}
       console.log('Cursor at: ', cursor.value.Code);
-      // for some reason there is one "blank" row in the Code index, of empty arrays
-      // following 'if' does not manage to ignore that blank row
-      if (cursor.value.code !== '') {
-        s += '<li>' + cursor.value.Code + ': ' +
-            cursor.value.Genus + ' ' +
-            cursor.value.Species;
-        if (cursor.value.SubsppVar !== '') s += ' ' + cursor.value.SubsppVar;
-        if (cursor.value.Vernacular !== '') s += ', ' + cursor.value.Vernacular;
-        s += '</li>';
-      }
+      s += '<li>' + cursor.value.Code + ': ' +
+          cursor.value.Genus + ' ' +
+          cursor.value.Species;
+      if (cursor.value.SubsppVar !== '') s += ' ' + cursor.value.SubsppVar;
+      if (cursor.value.Vernacular !== '') s += ', ' + cursor.value.Vernacular;
+      s += '</li>';
       return cursor.continue().then(showAll);
     }).then(() => {
       if (s === '') {s = '<p>No results.</p>';} else {s += '</ul>'}
