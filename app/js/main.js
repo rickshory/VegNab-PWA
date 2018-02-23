@@ -219,15 +219,19 @@ var idbApp = (function() {
   function getByDistrib(key) {
     // get all the species for a subnation (state or province)
     var key = document.getElementById('distrib').value;
-    if (key === '') {return;}
     var s = '';
     dbPromise.then((db) => {
       var tx = db.transaction('NRCS-species', 'readonly');
       var store = tx.objectStore('NRCS-species');
       var index = store.index('Distribution');
-//      s += '<h2>' + key + '</h2><p>';
       s += '<ul>';
-      return index.openCursor(key);
+      var request;
+      if (key === "") {
+        request = index.openCursor();
+      } else {
+        request = index.openCursor(key);
+      }
+      return request;
     }).then(function showAll(cursor) {
       if (!cursor) {return;}
       console.log('Cursor at: ', cursor.value.Code);
